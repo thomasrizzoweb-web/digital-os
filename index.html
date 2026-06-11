@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DIGITAL OS — The Digital Operating System for Modern Businesses</title>
+<link rel="stylesheet" href="styles.css" />
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--text-body);
+    background: var(--surface-page);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Page-wide dark navy base with deep vignette */
+  .page {
+    position: relative;
+    background:
+      radial-gradient(ellipse 120% 80% at 50% -10%, #150c28 0%, transparent 55%),
+      linear-gradient(180deg, var(--ink-850) 0%, var(--ink-800) 50%, var(--ink-900) 100%);
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .wrap { max-width: 1440px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── Shared display heading ─────────────────────────── */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: var(--display-leading);
+    letter-spacing: var(--display-tracking);
+    color: var(--text-strong);
+    transform: scaleY(1.08);
+    transform-origin: center;
+  }
+  .display .accent { color: var(--heading-accent); display: block; }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--label-tracking);
+    color: var(--label-accent);
+    font-size: var(--text-sm);
+  }
+
+  /* ── Buttons ────────────────────────────────────────── */
+  .btn-primary {
+    font-family: var(--font-body);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #fff;
+    background: var(--grad-button);
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: 18px 38px;
+    font-size: var(--text-md);
+    cursor: pointer;
+    box-shadow: var(--shadow-button);
+    transition: transform var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out),
+                background var(--dur-fast) var(--ease-out);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .btn-primary:hover { background: var(--grad-button-hover); box-shadow: 0 16px 44px -10px rgba(124,58,237,0.85); transform: translateY(-2px); }
+  .btn-primary:active { transform: translateY(0) scale(0.99); }
+
+  /* ── Navbar ─────────────────────────────────────────── */
+  .navbar-shell { position: fixed; top: 22px; left: 0; right: 0; z-index: 60; padding: 0 40px; }
+  .navbar {
+    max-width: 1440px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(135deg, rgba(40,28,66,0.55) 0%, rgba(15,10,28,0.5) 60%);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(var(--blur-navbar));
+    -webkit-backdrop-filter: blur(var(--blur-navbar));
+    padding: 18px 24px 18px 28px;
+    box-shadow: 0 20px 50px -30px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .nav-left { display: flex; align-items: center; gap: 22px; }
+  .logo { font-family: var(--font-display); font-size: 1.75rem; color: #fff; letter-spacing: 0.02em; transform: scaleY(1.05); white-space: nowrap; }
+  .nav-sep { width: 1px; height: 38px; background: var(--line-soft); }
+  .tagline { font-size: 0.85rem; line-height: 1.35; color: var(--text-muted); font-weight: var(--weight-regular); }
+  .nav-right { display: flex; align-items: center; gap: 38px; }
+  .nav-link {
+    font-family: var(--font-body); font-weight: var(--weight-medium);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-strong); font-size: 0.95rem; text-decoration: none;
+    position: relative; padding-bottom: 4px; transition: color var(--dur-fast);
+  }
+  .nav-link:hover { color: var(--violet-200); }
+  .nav-link.active { color: var(--violet-400); }
+  .nav-link.active::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+    background: var(--violet-400); border-radius: 2px;
+  }
+  .nav-cta { padding: 14px 26px; font-size: 0.9rem; border-radius: var(--radius-md); }
+
+  /* ── Decorative hourglasses (motion-blur copies) ────── */
+  .hg-deco { position: absolute; pointer-events: none; z-index: 1; opacity: 0.85; }
+  .hg-deco img { width: 100%; height: auto; display: block; }
+  .hg-blur img { filter: blur(4px) saturate(1.1); }
+
+  /* ── Section base ───────────────────────────────────── */
+  section { position: relative; z-index: 2; scroll-margin-top: 120px; }
+
+  /* ════════ HERO ════════ */
+  .hero { text-align: center; padding: 150px 0 110px; position: relative; }
+  .hero-glow {
+    position: absolute; inset: 0; z-index: 0;
+    background: var(--grad-glow-radial);
+    pointer-events: none;
+  }
+  .hero-stop { font-size: 2rem; font-weight: var(--weight-semibold); color: #fff; margin-bottom: 4px; }
+  .hero-head { position: relative; display: inline-block; }
+  .hero-head .display { font-size: clamp(5rem, 14vw, 11rem); position: relative; z-index: 2; }
+  .hero-head .display .losing { color: #fff; display: block; }
+  .hero-head .display .clients { color: var(--heading-accent); display: block; }
+  .hero-hourglass {
+    position: absolute; z-index: 3; top: 58%; left: 51%;
+    width: 250px; transform: translate(-50%, -50%) rotate(-12deg);
+    filter: drop-shadow(80px 64px 24px rgba(0,0,0,0.5));
+    pointer-events: none;
+  }
+  .hero-hourglass img { width: 100%; display: block; }
+  .hero-sub { font-size: var(--text-xl); color: var(--text-body); line-height: 1.45; margin: 36px 0 40px; font-weight: var(--weight-regular); }
+  .hero-sub span { display: block; }
+
+  .hg-hero-left  { width: 150px; left: 3%;  bottom: 2%;  transform: rotate(2deg); }
+  .hg-hero-right { width: 145px; right: 2%; top: 18%;    transform: rotate(-8deg); }
+
+  /* ════════ ABOUT ════════ */
+  .about { padding: 90px 0 110px; }
+  .about-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: center; }
+  .about-eyebrow { margin-bottom: 22px; }
+  .about-head { font-size: clamp(3rem, 6vw, 5.4rem); margin-bottom: 34px; }
+  .about-body { font-size: var(--text-lg); color: var(--text-body); line-height: 1.5; max-width: 560px; }
+  .about-body p { margin-bottom: 6px; }
+  .about-divider { height: 2px; width: 320px; margin: 40px 0 36px;
+    background: linear-gradient(90deg, var(--violet-500) 0%, rgba(124,58,237,0.05) 100%); }
+
+  .about-visual { position: relative; height: 620px; display: flex; align-items: center; justify-content: center; }
+  .neon-ring {
+    position: absolute; width: 380px; height: 380px; border-radius: 50%;
+    border: 2.5px solid var(--neon-violet);
+    box-shadow: var(--glow-neon-ring), inset 0 0 30px rgba(168,85,247,0.25);
+    top: 40%; left: 50%; transform: translate(-50%, -50%);
+  }
+  .podium {
+    position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%);
+    width: 420px; height: 130px; border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 30%, #1c1233 0%, #0c0717 70%);
+    box-shadow: 0 -10px 40px rgba(124,58,237,0.25);
+  }
+  .podium::after { content:""; position:absolute; left:0; right:0; top:50%; height:130px;
+    background: linear-gradient(180deg, #0c0717, #07040d); border-radius: 0 0 50% 50%/0 0 100% 100%; }
+  .about-hourglass { position: relative; z-index: 3; width: 360px; transform: translateY(-40px) rotate(-28deg);
+    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6)); }
+  .about-hourglass img { width: 100%; display: block; }
+
+  /* ════════ CONTACT ════════ */
+  .contact { padding: 90px 0 110px; }
+  .contact-grid { display: grid; grid-template-columns: 0.95fr 0.8fr 1fr; gap: 40px; align-items: start; }
+
+  .contact-eyebrow { margin-bottom: 20px; }
+  .contact-head { font-size: clamp(2.6rem, 4.6vw, 4.2rem); margin-bottom: 28px; }
+  .contact-body { font-size: var(--text-lg); color: var(--text-body); line-height: 1.5; margin-bottom: 34px; }
+  .contact-body span { display: block; }
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 18px; margin-bottom: 44px; }
+  .check-list li { display: flex; align-items: center; gap: 16px; font-size: var(--text-lg); color: var(--text-body); }
+  .check-dot { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%;
+    border: 1.5px solid var(--violet-500); display: grid; place-items: center;
+    background: rgba(124,58,237,0.12); box-shadow: 0 0 14px rgba(124,58,237,0.3); }
+  .check-dot svg { width: 16px; height: 16px; color: var(--violet-200); }
+
+  .results-card {
+    display: flex; align-items: center; gap: 22px;
+    background: linear-gradient(135deg, rgba(30,20,52,0.5), rgba(13,8,24,0.5));
+    border: 1px solid var(--line-soft); border-radius: var(--radius-lg);
+    padding: 26px 30px;
+  }
+  .bolt {
+    flex: 0 0 auto; width: 64px; height: 64px; border-radius: 50%;
+    border: 2px solid var(--neon-violet); display: grid; place-items: center;
+    background: rgba(124,58,237,0.12);
+    box-shadow: 0 0 22px var(--neon-violet-soft), inset 0 0 18px rgba(168,85,247,0.3);
+  }
+  .bolt svg { width: 28px; height: 28px; color: #fff; }
+  .results-card h4 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem;
+    color: #fff; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1; margin-bottom: 8px; }
+  .results-card p { font-size: 0.95rem; color: var(--text-muted); }
+
+  /* center hourglass column */
+  .contact-visual { position: relative; height: 640px; }
+  .contact-ring { position: absolute; width: 300px; height: 300px; border-radius: 50%;
+    border: 2px solid var(--neon-violet); box-shadow: var(--glow-neon-ring);
+    left: 50%; top: 58%; transform: translate(-50%,-50%); }
+  .contact-hg-main { position: absolute; z-index: 3; width: 300px; left: 50%; top: 56%;
+    transform: translate(-50%,-50%) rotate(-28deg); filter: drop-shadow(0 24px 44px rgba(0,0,0,0.6)); }
+  .contact-hg-small { position: absolute; z-index: 4; width: 110px; left: 34%; top: 4%;
+    transform: rotate(-10deg); filter: drop-shadow(0 14px 24px rgba(0,0,0,0.5)); opacity: 0.95; }
+  .contact-visual img { width: 100%; display: block; }
+
+  /* form card */
+  .form-card {
+    background: linear-gradient(160deg, rgba(24,16,42,0.7) 0%, rgba(11,7,22,0.7) 100%);
+    border: 1px solid var(--line-soft); border-radius: var(--radius-xl);
+    padding: 38px 36px; box-shadow: var(--shadow-card);
+  }
+  .form-card h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.9rem;
+    color: #fff; text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 8px; }
+  .form-card .sub { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 26px; }
+  .field { margin-bottom: 20px; }
+  .field label { display: block; font-size: 0.72rem; font-weight: var(--weight-semibold);
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 9px; }
+  .field input, .field select, .field textarea {
+    width: 100%; background: var(--surface-input); border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md); padding: 14px 16px; color: var(--text-strong);
+    font-family: var(--font-body); font-size: 0.95rem; outline: none;
+    transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+  }
+  .field input::placeholder, .field textarea::placeholder { color: var(--text-faint); }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--violet-500); box-shadow: 0 0 0 3px rgba(124,58,237,0.18); }
+  .field textarea { resize: vertical; min-height: 92px; }
+  .field.select-wrap { position: relative; }
+  .field select { appearance: none; color: var(--text-faint); cursor: pointer; }
+  .field .chev { position: absolute; right: 16px; bottom: 15px; pointer-events: none; color: var(--text-muted); }
+  .field .chev svg { width: 18px; height: 18px; }
+  .btn-send { width: 100%; padding: 18px; border-radius: var(--radius-md); justify-content: center; margin-top: 6px; position: relative; }
+  .btn-send .arr { position: absolute; right: 26px; display: inline-flex; }
+  .btn-send .arr svg { width: 20px; height: 20px; }
+  .form-status { margin-top: 16px; font-size: 0.92rem; text-align: center; min-height: 1.2em; transition: color var(--dur-fast); }
+  .form-status.ok  { color: #4ade80; }
+  .form-status.err { color: #f87171; }
+  #contact-form.sending .btn-send { opacity: 0.7; pointer-events: none; }
+
+  .hg-contact-left { display: none; }
+
+  /* ════════ CTA + FOOTER ════════ */
+  .cta { text-align: center; padding: 120px 0 90px; position: relative; }
+  .cta-eyebrow { margin-bottom: 22px; }
+  .cta-head { font-size: clamp(2.8rem, 6vw, 5.6rem); margin-bottom: 30px; }
+  .cta-sub { font-size: 1.7rem; color: var(--text-body); font-weight: var(--weight-regular); margin-bottom: 40px; }
+  .hg-cta-left  { width: 185px; left: 5%;  top: 28%;  transform: rotate(4deg); }
+  .hg-cta-right { width: 175px; right: 5%; top: 16%;  transform: rotate(-10deg); }
+
+  .footer { border-top: 1px solid var(--line-hair); padding: 40px 0 56px; position: relative; z-index: 2; }
+  .footer-grid { display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+  .footer-brand { display: flex; align-items: center; gap: 22px; }
+  .footer-logo { font-family: var(--font-display); font-size: 1.6rem; color: #fff; transform: scaleY(1.05); }
+  .footer-tag { font-size: 0.85rem; line-height: 1.35; color: var(--text-muted); }
+  .footer-links { display: flex; gap: 36px; }
+  .footer-links a { color: var(--text-body); text-decoration: none; font-size: 0.95rem; transition: color var(--dur-fast); }
+  .footer-links a:hover { color: #fff; }
+  .footer-copy { font-size: 0.9rem; color: var(--text-muted); white-space: nowrap; }
+
+  /* ── Scroll animations ── */
+  .reveal { opacity: 0; translate: 0 32px;
+    transition: opacity .8s var(--ease-out), translate .8s var(--ease-out);
+    transition-delay: var(--d, 0ms); }
+  .reveal.in-view { opacity: 1; translate: 0 0; }
+
+  @keyframes bob      { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+  @keyframes bobSmall { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes ringPulse{ 0%,100% { opacity: .82; } 50% { opacity: 1; } }
+
+  .about-hourglass img  { animation: bob 6.5s var(--ease-in-out) infinite; }
+  .contact-hg-main img  { animation: bob 7.2s var(--ease-in-out) infinite; }
+  .contact-hg-small img { animation: bobSmall 5s var(--ease-in-out) infinite; }
+  .hero-hourglass img   { animation: bobSmall 6s var(--ease-in-out) infinite; }
+  .neon-ring, .contact-ring { animation: ringPulse 4.2s var(--ease-in-out) infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; translate: none !important; transition: none; }
+    .about-hourglass img, .contact-hg-main img, .contact-hg-small img,
+    .hero-hourglass img, .neon-ring, .contact-ring { animation: none !important; }
+  }
+
+  /* ── 1100px: tablet landscape ─────────────────────────── */
+  @media (max-width: 1100px) {
+    .wrap { padding: 0 32px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+    .contact-visual { display: none; }
+    .footer-grid { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .nav-right { gap: 24px; }
+  }
+
+  /* ── 768px: tablet portrait / large mobile ─────────────── */
+  @media (max-width: 768px) {
+    .wrap { padding: 0 20px; }
+
+    /* Navbar */
+    .navbar-shell { top: 12px; padding: 0 16px; }
+    .navbar { padding: 14px 16px 14px 20px; border-radius: 18px; }
+    .nav-sep, .tagline { display: none; }
+    .nav-right { gap: 18px; }
+    .nav-link { font-size: 0.82rem; }
+    .nav-cta { padding: 11px 18px; font-size: 0.82rem; }
+
+    /* Hero */
+    .hero { padding: 110px 0 70px; }
+    .hero-stop { font-size: 1.5rem; }
+    .hero-sub { font-size: 1.1rem; margin: 24px 0 28px; }
+    .hg-hero-left { width: 90px; }
+    .hg-hero-right { width: 85px; }
+    .hero-hourglass { width: 160px; }
+
+    /* About */
+    .about { padding: 70px 0 80px; }
+    .about-grid { gap: 40px; }
+    .about-visual { height: 380px; }
+    .neon-ring { width: 260px; height: 260px; }
+    .podium { width: 300px; height: 90px; bottom: 50px; }
+    .about-hourglass { width: 240px; transform: translateY(-30px) rotate(-28deg); }
+    .about-divider { width: 240px; margin: 28px 0 24px; }
+
+    /* Contact */
+    .contact { padding: 70px 0 80px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    .contact-visual { display: none; }
+    .form-card { padding: 28px 24px; }
+
+    /* CTA */
+    .cta { padding: 80px 0 60px; }
+    .cta-sub { font-size: 1.25rem; margin-bottom: 28px; }
+    .hg-cta-left { width: 110px; }
+    .hg-cta-right { width: 100px; }
+
+    /* Footer */
+    .footer { padding: 28px 0 40px; }
+    .footer-links { gap: 20px; }
+
+    /* Buttons */
+    .btn-primary { padding: 15px 28px; font-size: 0.9rem; }
+  }
+
+  /* ── 480px: small mobile ────────────────────────────────── */
+  @media (max-width: 480px) {
+    .wrap { padding: 0 16px; }
+
+    /* Navbar */
+    .navbar-shell { top: 10px; padding: 0 12px; }
+    .navbar { padding: 12px 14px; border-radius: 14px; }
+    .nav-link { display: none; }
+    .nav-right { gap: 0; }
+    .logo { font-size: 1.35rem; }
+
+    /* Hero */
+    .hero { padding: 90px 0 55px; }
+    .hero-stop { font-size: 1.2rem; }
+    .hero-sub { font-size: 1rem; margin: 18px 0 22px; }
+    .hg-hero-left, .hg-hero-right { display: none; }
+    .hero-hourglass { width: 130px; }
+
+    /* About */
+    .about { padding: 55px 0 65px; }
+    .about-visual { height: 300px; }
+    .neon-ring { width: 200px; height: 200px; }
+    .podium { width: 230px; height: 70px; bottom: 36px; }
+    .about-hourglass { width: 180px; transform: translateY(-24px) rotate(-28deg); }
+    .about-divider { width: 180px; margin: 22px 0 20px; }
+    .about-body { font-size: 1rem; }
+
+    /* Contact */
+    .contact { padding: 55px 0 65px; }
+    .check-list { gap: 14px; }
+    .check-list li { font-size: 1rem; }
+    .results-card { padding: 20px; gap: 16px; }
+    .bolt { width: 50px; height: 50px; }
+    .bolt svg { width: 22px; height: 22px; }
+    .form-card { padding: 22px 18px; border-radius: 18px; }
+    .form-card h3 { font-size: 1.5rem; }
+    .contact-body { font-size: 1rem; }
+
+    /* CTA */
+    .cta { padding: 60px 0 44px; }
+    .cta-sub { font-size: 1.05rem; }
+    .hg-cta-left, .hg-cta-right { display: none; }
+
+    /* Footer */
+    .footer-brand { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .footer-links { flex-direction: column; gap: 10px; }
+    .footer-copy { font-size: 0.8rem; }
+
+    /* Buttons */
+    .btn-primary { padding: 14px 22px; font-size: 0.85rem; }
+    .nav-cta { padding: 10px 16px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <div class="navbar-shell">
+    <nav class="navbar">
+      <div class="nav-left">
+        <div class="logo">DIGITAL OS</div>
+        <div class="nav-sep"></div>
+        <div class="tagline">The Digital Operating<br />System for Modern Businesses</div>
+      </div>
+      <div class="nav-right">
+        <a href="#hero" class="nav-link active" data-nav="hero">Home</a>
+        <a href="#about" class="nav-link" data-nav="about">About Us</a>
+        <button class="btn-primary nav-cta">Partner With Us</button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero" id="hero" data-screen-label="Hero">
+    <div class="hero-glow"></div>
+    <div class="hg-deco hg-blur hg-hero-left"><img src="assets/hourglass-crop.png" alt="" /></div>
+    <div class="hg-deco hg-blur hg-hero-right"><img src="assets/hourglass-crop.png" alt="" /></div>
+    <div class="wrap">
+      <div class="hero-stop reveal">Stop</div>
+      <div class="hero-head reveal" style="--d:80ms">
+        <h1 class="display">
+          <span class="losing">Losing</span>
+          <span class="clients">Clients</span>
+        </h1>
+        <div class="hero-hourglass"><img src="assets/hourglass-crop.png" alt="Purple glass hourglass" /></div>
+      </div>
+      <p class="hero-sub reveal" style="--d:220ms">
+        <span>We build and automate your digital growth.</span>
+        <span>So you can focus on what matters.</span>
+      </p>
+      <button class="btn-primary reveal" style="--d:300ms">Partner With Us</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ ABOUT ═══════════ -->
+  <section class="about" id="about" data-screen-label="About">
+    <div class="wrap about-grid">
+      <div class="about-left reveal">
+        <div class="eyebrow about-eyebrow">About Us</div>
+        <h2 class="display about-head">We Build Your<span class="accent">Digital Advantage.</span></h2>
+        <div class="about-body">
+          <p>DIGITAL OS is a complete ecosystem of 20+ tools designed to manage every aspect of your online presence.</p>
+          <p>One system. Everything you need.</p>
+        </div>
+        <div class="about-divider"></div>
+        <button class="btn-primary">Partner With Us</button>
+      </div>
+      <div class="about-visual reveal" style="--d:120ms">
+        <div class="podium"></div>
+        <div class="neon-ring"></div>
+        <div class="about-hourglass"><img src="assets/hourglass-crop.png" alt="Purple glass hourglass on podium" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CONTACT ═══════════ -->
+  <section class="contact" id="contact" data-screen-label="Contact">
+    <div class="wrap contact-grid">
+      <!-- left -->
+      <div class="contact-left reveal">
+        <div class="eyebrow contact-eyebrow">Let's Talk</div>
+        <h2 class="display contact-head">Ready To Build<span class="accent">Your Digital OS?</span></h2>
+        <p class="contact-body">
+          <span>Tell us about your business and your goals.</span>
+          <span>We'll get back to you within 24 hours.</span>
+        </p>
+        <ul class="check-list">
+          <li><span class="check-dot"><i data-lucide="check"></i></span>Tailored solution for your business</li>
+          <li><span class="check-dot"><i data-lucide="check"></i></span>No commitment, just value</li>
+          <li><span class="check-dot"><i data-lucide="check"></i></span>Fast and friendly response</li>
+        </ul>
+        <div class="results-card">
+          <div class="bolt"><i data-lucide="zap"></i></div>
+          <div>
+            <h4>We Build Systems That Deliver Results.</h4>
+            <p>One system. Everything you need.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- center hourglass -->
+      <div class="contact-visual reveal" style="--d:120ms">
+        <div class="contact-hg-small"><img src="assets/hourglass-crop.png" alt="" /></div>
+        <div class="contact-ring"></div>
+        <div class="contact-hg-main"><img src="assets/hourglass-crop.png" alt="Purple glass hourglass" /></div>
+      </div>
+
+      <!-- form -->
+      <div class="form-card reveal" style="--d:160ms">
+        <h3>Send Us A Message</h3>
+        <p class="sub">Fill out the form and we'll be in touch.</p>
+        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="f103d2b6-dfe6-4278-bd7c-6a2c79ac5180" />
+          <input type="hidden" name="subject" value="Nuovo messaggio dal sito DIGITAL OS" />
+          <input type="hidden" name="from_name" value="DIGITAL OS — Sito web" />
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="Your name" required />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="field">
+            <label>Company Name</label>
+            <input type="text" name="company" placeholder="Your company" />
+          </div>
+          <div class="field select-wrap">
+            <label>What Do You Need?</label>
+            <select name="topic">
+              <option value="" selected disabled>Select a topic</option>
+              <option>Web development</option>
+              <option>Automation</option>
+              <option>Digital strategy</option>
+              <option>Something else</option>
+            </select>
+            <span class="chev"><i data-lucide="chevron-down"></i></span>
+          </div>
+          <div class="field">
+            <label>Tell Us More</label>
+            <textarea name="message" placeholder="Write your message..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-send">Send Message <span class="arr"><i data-lucide="arrow-right"></i></span></button>
+          <p id="form-status" class="form-status" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CTA + FOOTER ═══════════ -->
+  <section class="cta" data-screen-label="CTA">
+    <div class="hg-deco hg-blur hg-cta-left"><img src="assets/hourglass-crop.png" alt="" /></div>
+    <div class="hg-deco hg-blur hg-cta-right"><img src="assets/hourglass-crop.png" alt="" /></div>
+    <div class="wrap">
+      <div class="eyebrow cta-eyebrow reveal">Ready To Grow?</div>
+      <h2 class="display cta-head reveal" style="--d:90ms">Let's Build Your<span class="accent">Digital Operating System.</span></h2>
+      <p class="cta-sub reveal" style="--d:200ms">Stop losing clients. Start scaling.</p>
+      <button class="btn-primary">Partner With Us</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">DIGITAL OS</div>
+        <div class="footer-tag">The Digital Operating<br />System for Modern Businesses</div>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
+      <div class="footer-copy">© 2024 DIGITAL OS. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  // Active nav link on scroll
+  const sections = { hero: document.getElementById('hero'), about: document.getElementById('about') };
+  const links = document.querySelectorAll('.nav-link');
+  const onScroll = () => {
+    const y = window.scrollY + 200;
+    let current = 'hero';
+    if (sections.about && y >= sections.about.offsetTop) current = 'about';
+    links.forEach(l => l.classList.toggle('active', l.dataset.nav === current));
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Reveal-on-scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach((el) => io.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('in-view'));
+  }
+
+  // Parallax drift on blurred decorative hourglasses
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const decos = [...document.querySelectorAll('.hg-deco')].map((el, i) => ({
+    img: el.querySelector('img'),
+    speed: [-0.10, 0.12, -0.08, 0.10][i % 4],
+  }));
+  let ticking = false;
+  const parallax = () => {
+    const vh = window.innerHeight;
+    decos.forEach(({ img, speed }) => {
+      if (!img) return;
+      const rect = img.getBoundingClientRect();
+      const offset = (rect.top + rect.height / 2 - vh / 2) * speed;
+      img.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
+    });
+    ticking = false;
+  };
+  if (!reduceMotion && decos.length) {
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(parallax); }
+    }, { passive: true });
+    parallax();
+  }
+
+  // Contact form → Web3Forms (AJAX)
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.className = 'form-status';
+      status.textContent = 'Sending…';
+      form.classList.add('sending');
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          status.className = 'form-status ok';
+          status.textContent = "Message sent — we'll be in touch within 24 hours.";
+          form.reset();
+        } else {
+          status.className = 'form-status err';
+          status.textContent = data.message || 'Something went wrong. Please try again.';
+        }
+      } catch (err) {
+        status.className = 'form-status err';
+        status.textContent = 'Network error. Please try again.';
+      } finally {
+        form.classList.remove('sending');
+      }
+    });
+  }
+
+  // "Partner With Us" buttons → scroll to contact section
+  document.querySelectorAll('.btn-primary').forEach(btn => {
+    if (/partner with us/i.test(btn.textContent)) {
+      btn.addEventListener('click', () => {
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  });
+</script>
+</body>
+</html>

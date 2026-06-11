@@ -1,0 +1,47 @@
+:root {
+  /* ── Base surfaces (near-black navy/violet) ───────────────── */
+  --ink-900: #07040d;   /* deepest edge */
+  --ink-850: #0a0612;   /* page base top */
+  --ink-800: #0d0818;   /* page base bottom */
+  --ink-750: #110b1f;   /* raised panel */
+  --ink-700: #16102a;   /* card / input fill */
+  --ink-650: #1d1536;   /* hover fill */
+
+  /* ── Violet accent ramp ───────────────────────────────────── */
+  --violet-50:  #ede9ff;
+  --violet-200: #c4b5fd;
+  --violet-400: #8b3dff;  /* heading violet */
+  --violet-500: #7c3aed;  /* primary accent / labels */
+  --violet-600: #6d28d9;
+  --indigo-500: #4f46e5;  /* button gradient start */
+  --magenta-500: #9333ea; /* button gradient end */
+
+  /* Neon ring / glow */
+  --neon-violet: #a855f7;
+  --neon-violet-soft: rgba(168, 85, 247, 0.55);
+
+  /* ── Text ─────────────────────────────────────────────────── */
+  --text-strong: #ffffff;
+  --text-body:   #d7d2e6;
+  --text-muted:  #9b93b5;
+  --text-faint:  #6b6385;
+
+  /* ── Borders & lines ──────────────────────────────────────── */
+  --line-soft:   rgba(255, 255, 255, 0.08);
+  --line-violet: rgba(124, 58, 237, 0.55);
+  --line-hair:   rgba(255, 255, 255, 0.06);
+
+  /* ── Semantic aliases ─────────────────────────────────────── */
+  --surface-page:   var(--ink-850);
+  --surface-card:   var(--ink-700);
+  --surface-input:  rgba(20, 14, 34, 0.6);
+  --surface-navbar: rgba(15, 10, 28, 0.55);
+
+  --label-accent:   var(--violet-500);
+  --heading-accent: var(--violet-400);
+
+  /* Gradients */
+  --grad-button: linear-gradient(100deg, var(--indigo-500) 0%, var(--magenta-500) 100%);
+  --grad-button-hover: linear-gradient(100deg, #5b52ff 0%, #a23bff 100%);
+  --grad-glow-radial: radial-gradient(ellipse 60% 55% at 50% 45%, rgba(124, 58, 237, 0.28) 0%, rgba(91, 33, 182, 0.10) 38%, transparent 70%);
+}
