@@ -387,9 +387,12 @@
   .piano-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 28px; line-height: 1.5; }
 
   .piano-price-wrap { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--line-hair); }
-  .piano-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 12px; }
+  .piano-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px; }
   .piano-euro { font-size: 1.5rem; color: var(--text-muted); font-weight: var(--weight-semibold); margin-top: 6px; }
   .piano-amount { font-family: var(--font-display); font-size: 4rem; color: #fff; transform: scaleY(1.08); display: inline-block; line-height: 1; }
+  .piano-sub { display: inline-block; font-size: 0.8rem; color: var(--violet-200); background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.25); border-radius: var(--radius-pill); padding: 4px 12px; margin-bottom: 4px; }
+  .piano-tag { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .piano-features .pf-sep { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--violet-400); font-weight: var(--weight-semibold); padding: 8px 0 4px; border-top: 1px solid var(--line-hair); margin-top: 4px; }
 
   .piano-features { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
   .piano-features li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--text-body); line-height: 1.5; }
@@ -1051,7 +1054,7 @@
         <div class="step">
           <div class="step-num">05</div>
           <h4>Supporto Mensile</h4>
-          <p>Ogni mese ricevi il report. Nei piani Grow e Pro: aggiornamenti e call di ottimizzazione.</p>
+          <p>Con il piano Pro: mantenimento sito, 4 contenuti social, campagna mensile e report. Tutto incluso nell'abbonamento.</p>
         </div>
       </div>
     </div>
@@ -1069,22 +1072,24 @@
 
         <!-- START -->
         <div class="piano-card reveal-scale js-tilt" style="--d:0ms" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-perspective="1000">
-          <div class="piano-badge">Inizia Qui</div>
+          <div class="piano-badge">Aggancio</div>
           <div class="piano-name">Start</div>
-          <div class="piano-desc">Per chi vuole "esserci online" in modo pulito e professionale.</div>
+          <div class="piano-desc">Per chi vuole partire subito con Google Maps, recensioni e WhatsApp. Senza sito.</div>
           <div class="piano-price-wrap">
+            <div class="piano-tag">Una tantum</div>
             <div class="piano-price-row">
               <span class="piano-euro">€</span>
-              <span class="piano-amount">49</span>
+              <span class="piano-amount">69</span>
             </div>
           </div>
           <ul class="piano-features">
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Sito one-page professionale</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Form contatti + pulsante WhatsApp</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>QR code recensioni Google Maps</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Ottimizzazione Google Maps</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>QR code recensioni Google</li>
             <li><span class="pf-dot"><i data-lucide="check"></i></span>QR code WhatsApp</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Ottimizzazione Google Business Profile</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Report mensile (visite, richieste)</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Mini-pagina recensioni personalizzata</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Strategia recensioni (messaggi pronti)</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>1 contenuto social per presentare il QR</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>1 revisione inclusa</li>
           </ul>
           <button class="btn-ghost piano-btn scroll-cta">Scegli Start</button>
         </div>
@@ -1093,44 +1098,54 @@
         <div class="piano-card featured reveal-scale js-tilt" style="--d:120ms" data-tilt data-tilt-max="6" data-tilt-speed="400" data-tilt-perspective="1000">
           <div class="piano-badge">Più Popolare</div>
           <div class="piano-name">Grow</div>
-          <div class="piano-desc">Per chi vuole iniziare a lavorare con i dati e i contatti in modo strutturato.</div>
+          <div class="piano-desc">Il piano principale. Tutto di Start più un sito one-page professionale pronto in 5 giorni.</div>
           <div class="piano-price-wrap">
-            <div class="piano-price-row">
-              <span class="piano-euro">€</span>
-              <span class="piano-amount">99</span>
-            </div>
-          </div>
-          <ul class="piano-features">
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Tutto di Start +</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Sito multi-sezione (servizi, gallery, chi siamo)</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>CRM base (Google Sheets)</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Email automatica al titolare e al cliente</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Sequenza follow-up 24/48h</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Mini-pagina personalizzata recensioni</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Mini dashboard con grafici</li>
-          </ul>
-          <button class="btn-primary piano-btn scroll-cta">Scegli Grow</button>
-        </div>
-
-        <!-- PRO -->
-        <div class="piano-card reveal-scale js-tilt" style="--d:240ms" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-perspective="1000">
-          <div class="piano-badge">Massimo</div>
-          <div class="piano-name">Pro</div>
-          <div class="piano-desc">Il pacchetto completo per chi vuole un sistema serio, continuo e sempre ottimizzato.</div>
-          <div class="piano-price-wrap">
+            <div class="piano-tag">Una tantum</div>
             <div class="piano-price-row">
               <span class="piano-euro">€</span>
               <span class="piano-amount">149</span>
             </div>
           </div>
           <ul class="piano-features">
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Tutto di Start +</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Sito one-page professionale</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Pulsante WhatsApp integrato</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Form contatti collegato a email</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>QR recensioni integrato nel sito</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>2 revisioni incluse</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Consegna in 5 giorni</li>
+          </ul>
+          <button class="btn-primary piano-btn scroll-cta">Scegli Grow</button>
+        </div>
+
+        <!-- PRO -->
+        <div class="piano-card reveal-scale js-tilt" style="--d:240ms" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-perspective="1000">
+          <div class="piano-badge">Per Scalare</div>
+          <div class="piano-name">Pro</div>
+          <div class="piano-desc">Sito multi-sezione, CRM, automazioni e abbonamento mensile per chi vuole crescere davvero.</div>
+          <div class="piano-price-wrap">
+            <div class="piano-tag">Una tantum</div>
+            <div class="piano-price-row">
+              <span class="piano-euro">€</span>
+              <span class="piano-amount">249</span>
+            </div>
+            <span class="piano-sub">+ 79€/mese abbonamento</span>
+          </div>
+          <ul class="piano-features">
             <li><span class="pf-dot"><i data-lucide="check"></i></span>Tutto di Grow +</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Aggiornamenti mensili al sito</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>1 campagna/mese via email</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Sito multi-sezione</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>CRM Google Sheets</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Automazioni email (notifica + conferma)</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Mini dashboard</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Ottimizzazione avanzata Google Business</li>
             <li><span class="pf-dot"><i data-lucide="check"></i></span>Template messaggi WhatsApp</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Report mensile dettagliato PDF</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Call 30 min ogni mese per ottimizzare</li>
-            <li><span class="pf-dot"><i data-lucide="check"></i></span>Priorità di risposta e supporto</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>1 campagna email iniziale</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>3 revisioni incluse</li>
+            <li class="pf-sep">🔁 Abbonamento 79€/mese include</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Mantenimento sito (testi, foto, orari)</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>4 contenuti social al mese</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>1 campagna email o WhatsApp/mese</li>
+            <li><span class="pf-dot"><i data-lucide="check"></i></span>Report mensile + supporto prioritario</li>
           </ul>
           <button class="btn-ghost piano-btn scroll-cta">Scegli Pro</button>
         </div>
@@ -1231,9 +1246,9 @@
             <label>Piano di Interesse</label>
             <select name="topic">
               <option value="" selected disabled>Seleziona un piano</option>
-              <option>Piano Start — 49€</option>
-              <option>Piano Grow — 99€</option>
-              <option>Piano Pro — 149€</option>
+              <option>Piano Start — 69€ (QR + Google Maps, senza sito)</option>
+              <option>Piano Grow — 149€ (sito + QR + tutto)</option>
+              <option>Piano Pro — 249€ + 79€/mese (full package)</option>
               <option>Non so ancora, dimmi tu</option>
             </select>
             <span class="chev"><i data-lucide="chevron-down"></i></span>
